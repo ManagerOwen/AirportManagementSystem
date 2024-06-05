@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Passenger Dashboard</title>
+    <link rel="stylesheet" href="passenger.css">
+</head>
+
+<body>
+    <header>
+        <h1>Passenger Dashboard</h1>
+            <nav>
+                <ul>
+                    <li><a href="#Passenger.html">Passenger</a></li>
+                    <li><a href="#reservation.html">Reservation</a></li>
+                    <li><a href="#Flightdetails.html">Flight</a></li>
+
+                    <!-- Add more navigation links for other sections if needed -->
+                </ul>
+            </nav>
+    </header>
+
+    <div class="container">
+        <h2>Add Passenger</h2>
+        <input type="text" id="pnrno" placeholder="PNR No">
+        <input type="text" id="sname" placeholder="Name">
+        <input type="text" id="sage" placeholder="Age">
+        <input type="text" id="sgen" placeholder="Gender">
+        <input type="text" id="spassno" placeholder="Passport No">
+        <button id="addPassengerBtn">Add Passenger</button>
+    </div>
+
+    <script src="script.js">
+        document.addEventListener('DOMContentLoaded', function () {
+            const addPassengerBtn = document.getElementById('addPassengerBtn');
+
+            addPassengerBtn.addEventListener('click', function () {
+                // Get input values
+                const pnrno = document.getElementById('pnrno').value;
+                const sname = document.getElementById('sname').value;
+                const sage = document.getElementById('sage').value;
+                const sgen = document.getElementById('sgen').value;
+                const spassno = document.getElementById('spassno').value;
+
+                // Validate input values (you can add your validation logic here)
+
+                // Send data to the server (you can use fetch or XMLHttpRequest to send data to your backend)
+
+                // Example using fetch API
+                fetch('/api/add_passenger', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        pnrno: pnrno,
+                        sname: sname,
+                        sage: sage,
+                        sgen: sgen,
+                        spassno: spassno
+                    })
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        // Handle success response from the server
+                        console.log('Passenger added successfully:', data);
+                        // Optionally, you can display a success message to the user
+                    })
+                    .catch(error => {
+                        // Handle error
+                        console.error('Error adding passenger:', error);
+                        // Optionally, you can display an error message to the user
+                    });
+            });
+        });
+
+    </script>
+</body>
+
+</html>

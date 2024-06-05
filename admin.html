@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administrator Dashboard</title>
+    <link rel="stylesheet" href="admin.css">
+</head>
+
+<body>
+    <header>
+        <h1>Administrator Dashboard</h1>
+            <nav>
+                <ul>
+                    <li><a href="#admin.html">admin</a></li>
+                    <li><a href="#Passenger.html">Passenger</a></li>
+                    <li><a href="#reservation.html">Reservation</a></li>
+                    <li><a href="#Flightdetails.html">Flight</a></li>
+
+                    <!-- Add more navigation links for other sections if needed -->
+                </ul>
+            </nav>
+    </header>
+
+    <main>
+        <section id="passengerSection">
+            <h2>Passenger Management</h2>
+            <button id="addPassengerBtn">Add Passenger</button>
+            <!-- Table to display passenger data -->
+            <table id="passengerTable">
+                <thead>
+                    <tr>
+                        <th>PNR No</th>
+                        <th>Name</th>
+                        <th>Age</th>
+                        <th>Gender</th>
+                        <th>Passport No</th>
+                        <!-- Additional columns can be added here -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Passenger data will be dynamically populated here -->
+                </tbody>
+            </table>
+        </section>
+
+        <section id="reservationSection">
+            <h2>Reservation Management</h2>
+            <button id="addReservationBtn">Add Reservation</button>
+            <!-- Table to display reservation data -->
+            <table id="reservationTable">
+                <thead>
+                    <tr>
+                        <th>PNR No</th>
+                        <th>Name</th>
+                        <th>Aircraft Code</th>
+                        <th>Journey Date</th>
+                        <th>Amount</th>
+                        <th>Seat</th>
+                        <th>Total Amount</th>
+                        <!-- Additional columns can be added here -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Reservation data will be dynamically populated here -->
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Additional sections for other functionalities can be added here -->
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Your Airline Name. All rights reserved.</p>
+    </footer>
+
+    <script src="script.js">
+        document.addEventListener('DOMContentLoaded', function () {
+            // Function to fetch passenger data from the server
+            function fetchPassengerData() {
+                fetch('/api/passenger_data')
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        // Call function to render passenger table
+                        renderPassengerTable(data);
+                    })
+                    .catch(error => {
+                        console.error('Error fetching passenger data:', error);
+                        // Optionally, you can display an error message to the user
+                    });
+            }
+
+            // Function to render passenger table
+            function renderPassengerTable(data) {
+                const passengerTableBody = document.querySelector('#passengerTable tbody');
+
+                // Clear existing table rows
+                passengerTableBody.innerHTML = '';
+
+                // Loop through passenger data and create table rows
+                data.forEach(passenger => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                <td>${passenger.pnrno}</td>
+                <td>${passenger.name}</td>
+                <td>${passenger.age}</td>
+                <td>${passenger.gender}</td>
+                <td>${passenger.passport_no}</td>
+                <!-- Additional columns can be added here -->
+            `;
+                    passengerTableBody.appendChild(row);
+                });
+            }
+
+            // Function to fetch reservation data from the server
+            function fetchReservationData() {
+                fetch('/api/reservation_data')
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        // Call function to render reservation table
+                        renderReservationTable(data);
+                    })
+                    .catch(error => {
+                        console.error('Error fetching reservation data:', error);
+                        // Optionally, you can display an error message to the user
+                    });
+            }
+
+            // Function to render reservation table
+            function renderReservationTable(data) {
+                const reservationTableBody = document.querySelector('#reservationTable tbody');
+
+                // Clear existing table rows
+                reservationTableBody.innerHTML = '';
+
+                // Loop through reservation data and create table rows
+                data.forEach(reservation => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                <td>${reservation.pnrno}</td>
+                <td>${reservation.name}</td>
+                <td>${reservation.aircraft_code}</td>
+                <td>${reservation.journey_date}</td>
+                <td>${reservation.amount}</td>
+                <td>${reservation.seat}</td>
+                <td>${reservation.total_amount}</td>
+                <!-- Additional columns can be added here -->
+            `;
+                    reservationTableBody.appendChild(row);
+                });
+            }
+
+            // Call functions to fetch and render data when the page loads
+            fetchPassengerData();
+            fetchReservationData();
+        });
+
+    </script>
+</body>
+
+</html>

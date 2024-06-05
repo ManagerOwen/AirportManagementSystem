@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservation Dashboard</title>
+    <link rel="stylesheet" href="reservation.css">
+</head>
+
+<body>
+    <header>
+        <h1>Reservation Dashboard</h1>
+            <nav>
+                <ul>
+                    <li><a href="#Passenger.html">Passenger</a></li>
+                    <li><a href="#reservation.html">Reservation</a></li>
+                    <li><a href="#Flightdetails.html">Flight</a></li>
+
+                    <!-- Add more navigation links for other sections if needed -->
+                </ul>
+            </nav>
+    </header>
+
+    <div class="container">
+        <h2>Add Reservation</h2>
+        <input type="text" id="pnrno" placeholder="PNR No"><br><br>
+        <input type="text" id="sname" placeholder="Name"><br><br>
+        <input type="text" id="arcode" placeholder="Aircraft Code"><br><br>
+        <input type="text" id="jrdate" placeholder="Journey Date"><br><br>
+        <input type="text" id="amt" placeholder="Amount"><br><br>
+        <input type="text" id="seat" placeholder="Seat"><br><br>
+        <input type="text" id="totamt" placeholder="Total Amount"><br><br>
+        <input type="text" id="spassno" placeholder="Passport No"><br><br>
+        <input type="text" id="fltname" placeholder="Flight Name"><br><br>
+        <input type="text" id="sr" placeholder="Source"><br><br>
+        <input type="text" id="des" placeholder="Destination"><br><br>
+        <button id="addReservationBtn">Add Reservation</button>
+    </div>
+
+    <script src="script.js">
+        document.addEventListener('DOMContentLoaded', function () {
+            const addReservationBtn = document.getElementById('addReservationBtn');
+
+            addReservationBtn.addEventListener('click', function () {
+                // Get input values
+                const pnrno = document.getElementById('pnrno').value;
+                const sname = document.getElementById('sname').value;
+                const arcode = document.getElementById('arcode').value;
+                const jrdate = document.getElementById('jrdate').value;
+                const amt = document.getElementById('amt').value;
+                const seat = document.getElementById('seat').value;
+                const totamt = document.getElementById('totamt').value;
+                const spassno = document.getElementById('spassno').value;
+                const fltname = document.getElementById('fltname').value;
+                const sr = document.getElementById('sr').value;
+                const des = document.getElementById('des').value;
+
+                // Validate input values (you can add your validation logic here)
+
+                // Send data to the server (you can use fetch or XMLHttpRequest to send data to your backend)
+
+                // Example using fetch API
+                fetch('/api/add_reservation', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        pnrno: pnrno,
+                        sname: sname,
+                        arcode: arcode,
+                        jrdate: jrdate,
+                        amt: amt,
+                        seat: seat,
+                        totamt: totamt,
+                        spassno: spassno,
+                        fltname: fltname,
+                        sr: sr,
+                        des: des
+                    })
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        // Handle success response from the server
+                        console.log('Reservation added successfully:', data);
+                        // Optionally, you can display a success message to the user
+                    })
+                    .catch(error => {
+                        // Handle error
+                        console.error('Error adding reservation:', error);
+                        // Optionally, you can display an error message to the user
+                    });
+            });
+        });
+
+    </script>
+</body>
+
+</html>
